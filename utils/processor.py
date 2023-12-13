@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import subprocess
 import sys
@@ -57,3 +58,20 @@ def generate_subtitles_from_folder(folder_path, output_folder):
         # 检查是否为视频文件（例如，通过扩展名）
         if file_path.endswith('.mp4'):
             generate_subtitles_from_video(file_path, output_folder)
+
+
+def add_date_to_folder(folder_path, date_format='%Y-%m-%d'):
+    """
+    将当前日期添加到文件夹路径。
+
+    :param folder_path: 原始文件夹路径。
+    :param date_format: 日期的格式字符串，默认为 '%Y-%m-%d'。
+    :return: 修改后的文件夹路径。
+    """
+    # 获取当前日期
+    today = datetime.now().strftime(date_format)
+
+    # 创建新的文件夹路径
+    new_folder_path = f"{folder_path}_{today}"
+
+    return new_folder_path

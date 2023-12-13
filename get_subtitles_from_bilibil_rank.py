@@ -1,6 +1,6 @@
 import asyncio
 import os
-from extractors.bilibili_extractors import bilibili_extractor_from_rank
+from utils.extractors import rss_extractor
 from utils.processor import generate_subtitles_from_folder, srt_to_string
 from utils.storage import objects_to_csv, save_to_pickle
 from utils.downloader import download_bilibili_videos, get_data_from_feed
@@ -33,7 +33,7 @@ async def get_data_from_bilibili_rank(topN: int = 1):
 
     data = get_data_from_feed(feed_url=feed_url)
     data = data[:topN]
-    data = [bilibili_extractor_from_rank(data=d) for d in data]
+    data = [rss_extractor(data=d) for d in data]
 
     urls = [video_info.get('link', 'No Link') for video_info in data]
 

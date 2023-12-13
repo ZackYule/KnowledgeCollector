@@ -4,6 +4,7 @@ import pickle
 from typing import List
 import logging
 from logger_config import setup_logging
+from utils.processor import add_date_to_folder
 
 logger = logging.getLogger(__name__)
 
@@ -114,3 +115,12 @@ def objects_to_csv(objects, filename, attributes: List[str] = []):
         row = [obj.get(attr, '') for attr in attributes]
         data.append(row)
     save_to_csv(data=data, filename=filename, attributes=attributes)
+
+
+def generate_datetime_filepath(website: str, date_format='%Y-%m-%d'):
+    folder_path = '/Users/zack/Knowledge/' + website
+    file_name = 'answers.csv'
+    folder_path = add_date_to_folder(folder_path, date_format='%Y-%m-%d')
+    file_path = os.path.join(folder_path, file_name)
+
+    return file_path

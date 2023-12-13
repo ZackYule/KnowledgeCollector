@@ -69,7 +69,7 @@ def add_date_to_folder(folder_path, date_format='%Y-%m-%d'):
     :return: 修改后的文件夹路径。
     """
     # 获取当前日期
-    today = datetime.now().strftime(date_format)
+    today = datetime.now().strftime(date_format).replace('-', '_')
 
     # 创建新的文件夹路径
     new_folder_path = f"{folder_path}_{today}"

@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 
-def srt_to_string(file_path):
+def srt_to_string(file_path, separator=" "):
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.readlines()
 
@@ -12,9 +12,9 @@ def srt_to_string(file_path):
     for line in lines:
         if not line.startswith(
             ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '\n')):
-            text += line.strip() + " "
+            text += line.strip() + separator
 
-    return text
+    return text.rstrip(separator)
 
 
 def generate_subtitles_from_video(video_path,

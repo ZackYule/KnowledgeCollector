@@ -1,5 +1,6 @@
 import asyncio
 import os
+from typing import List
 from utils.extractors import rss_extractor
 from utils.processor import generate_subtitles_from_folder, srt_to_string
 from utils.storage import objects_to_csv, save_to_pickle
@@ -43,15 +44,34 @@ async def get_data_from_bilibili_rank(topN: int = 1):
     return add_subtitles_to_data(subtitles_folder, data)
 
 
+async def get_data_from_bilibili_urls(urls: List[str]):
+    video_folder = 'data/bilibili_videos'
+    subtitles_folder = 'data/bilibili_subtitles'
+
+    await download_bilibili_videos(urls=urls, path=video_folder)
+    generate_subtitles_from_folder(video_folder, subtitles_folder)
+
+    return add_subtitles_to_data(subtitles_folder, {})
+
+
 async def main():
-    data = await get_data_from_bilibili_rank()
+    # data = await get_data_from_bilibili_rank()
 
-    objects_to_csv(objects=data,
-                   attributes=data[0].keys(),
-                   filename='data/bilibili.csv')
+    # objects_to_csv(objects=data,
+    #                attributes=data[0].keys(),
+    #                filename='data/bilibili.csv')
 
-    docs = load_as_article_loader(data=data)
-    save_to_pickle(data=docs, filename='data/bilibili.pkl')
+    # docs = load_as_article_loader(data=data)
+    # save_to_pickle(data=docs, filename='data/bilibili.pkl')
+    data = await get_data_from_bilibili_urls([
+        'https://www.bilibili.com/video/BV1uL4y1g7Tw?p=3',
+        'https://www.bilibili.com/video/BV1uL4y1g7Tw?p=4',
+        'https://www.bilibili.com/video/BV1uL4y1g7Tw?p=5'
+    ])
+
+    # objects_to_csv(objects=data,
+    #                attributes=data[0].keys(),
+    #                filename='data/bilibili1.csv')
 
 
 if __name__ == "__main__":
